@@ -1,5 +1,42 @@
-<% @users.all.each do |user| %>
-<a href="<%= user_path(user)%>">
-<img alt="" src="<%= user.user_img.url(:user_index) %>">
-</a>
-<% end %>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Username</th>
+      <th scope="col">Avatar</th>
+	  <th scope="col">Email</th>
+	  <th scope="col">created at</th>
+    </tr>
+  </thead>
+  <tbody>
+	<% count = 1 %>
+	<% @users.all.each do |user| %>
+		<tr>
+			<th scope="row"><%=count%></th>
+			<td>
+				<a href="<%= user_path(user)%>">
+					<%=user.name%>
+				</a>
+			</td>
+			<td >
+				<a href="<%= user_path(user)%>">
+					<img style="width:150px; max-height: 150px;flex-wrap: wrap;" alt="" src="<%= user.user_img.url(:user_index) %>">
+				</a>
+			</td>
+			<td>
+				<a href="<%= user_path(user)%>">
+					<%=user.email%>
+				</a>
+			</td>
+			<td>
+				<a href="<%= user_path(user)%>">
+					<%=user.created_at%>
+				</a>
+			</td>
+		</tr>
+		<% count = count + 1 %>
+	<% end %>
+  </tbody>
+</table>

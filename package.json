@@ -1,5 +1,7 @@
 {
   "name": "Project2",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "heroku": "^7.19.4"
+  }
 }

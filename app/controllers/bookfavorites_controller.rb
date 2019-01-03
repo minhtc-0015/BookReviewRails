@@ -9,21 +9,22 @@ protect_from_forgery with: :exception
        @bookfavorite = Bookfavorite.new
     end
 
-    def create
-			@bookfavorite = Bookfavorite.where(:book_id => @book.id).first
-			if @bookfavorite.nil?
-      @bookfavorite = Bookfavorite.new
-      @bookfavorite.book_id = @book.id
-      @bookfavorite.user_id = @current_user.id
+	def create
+		@bookfavorite = Bookfavorite.where(:book_id => @book.id,:user_id => current_user.id).first
+		if @bookfavorite.nil?
+			@bookfavorite = Bookfavorite.new
+			@bookfavorite.book_id = @book.id
+			@bookfavorite.user_id = @current_user.id
 			if @bookfavorite.save
 				flash[:success] = "Thêm sách yêu thích thành công !"
-				 redirect_to book_path(@book)
+				redirect_to book_path(@book)
 			end
 			else
-				 flash[:danger] = "Bạn đã thêm sách này rồi !"
-				 redirect_to book_path(@book)
+				flash[:danger] = "Bạn đã thêm sách này rồi !"
+				redirect_to book_path(@book)
 			end
-   end
+		end
+
    def show
    end
 
