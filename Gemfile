@@ -9,13 +9,13 @@ gem 'client_side_validations-simple_form'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'rails', '~> 5.1.5'
-group :development do
-	gem 'sqlite3'
-  end
-  
-  group :production do
+group :production do
 	gem 'pg'
-	gem "activerecord-postgresql-adapter"
+	gem 'rails_12factor'
+  end
+ 
+ group :development do
+	gem 'sqlite3'
   end
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
