@@ -14,14 +14,9 @@ class UsersController < ApplicationController
       @user = User.new
   end
 
-  def show
-    check @user
-    @bookfavorite = Bookfavorite.where(:id => @id).first
-    if !@bookfavorite.nil?
-    @book_id = @bookfavorite.book_id
-    @book = Book.where(:id => @book_id).order("created_at DESC")
-    end
-  end
+  	def show
+    @bookfavorite = Bookfavorite.where(:user_id => current_user.id).order("created_at DESC")
+	end
 
   def create
       @user = User.new (user_params)

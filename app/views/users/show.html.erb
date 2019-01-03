@@ -170,43 +170,164 @@
             </div>
         </div>
         </div>
-        <div class="tab-pane fade in" id="tab2">
-            <% if @book != nil %>
-             <% @book.each do |minh| %>
-             <a href="/books/<%=minh.id %>">
-              <%= image_tag minh.book_img.url(:book_index), class: "book" %>
-              </a>
-              <% @bookfavorite_search = Bookfavorite.where(:book_id => minh.id).first %>
-              <% if logged_in? %>
-              <% if current_user.id == @bookfavorite_search.user_id %>
-              <%= link_to 'Delete',user_bookfavorite_path(@user.id,@bookfavorite_search.id), method: :delete, data: {confirm: "are you sure"}  %>
-              <% end %>
-              <% end %>
-              <% end %>
-            <% else %>
-            chua co sach
+		<div class="tab-pane fade in" id="tab2">
+		<% if @bookfavorite != nil %>
+				<table class="table table-hover table-light">
+					<thead>
+					<tr>
+						<th scope="col">STT</th>
+						<th scope="col">Book</th>
+						<th scope="col">Image</th>
+						<th scope="col">Author</th>
+						<th scope="col">Created at</th>
+						<th scope="col">Delete</th>
+					</tr>
+					</thead>
+					<tbody>
+					<% count = 1 %>
+					<% @bookfavorite.each do |b| %>
+						<tr>
+							<th scope="row"><%=count%></th>
+							<td>
+								<a href="/books/<%=b.book.id%>">
+									<%=b.book.title%>
+								</a>
+							</td>
+							<td >
+								<a  href="/books/<%=b.book.id %>">
+									<%= image_tag b.book.book_img.url(:book_index), class: "book-favorite" %>
+								</a>
+							</td>
+							<td>
+								<a href="/books/<%=b.book.id %>">
+									<%=b.book.author%>
+								</a>
+							</td>
+							<td>
+								<a href="/books/<%=b.book.id %>">
+									<%=b.book.created_at%>
+								</a>
+							</td>
+							
+							<td>
+								<% @bookfavorite_search = Bookfavorite.where(:book_id => b.id).first %>
+								<% if logged_in? %>
+								<% if current_user.id == b.user_id %>
+									<%= link_to 'Delete',user_bookfavorite_path(@user.id,b.id), method: :delete, data: {confirm: "are you sure"}  %>
+									<% end %>
+								<% end %>
+							</td>
+						</tr>
+						<% count = count + 1 %>
+					<% end %>
+					</tbody>
+				</table>
+			<% else %>
+				chua co sach
             <% end %>
         </div>
         <div class="tab-pane fade in" id="tab3">
-          <h3>Danh sách user đang theo dõi</h3>
-          <% @user_follow = @user.follow1s.all %>
-          <% @user_follow.all.each do |user| %>
-          <% user_follow1 = User.find(user.follow_user_id) %>
-          <a href="<%= user_path(user_follow1)%>">
-          <img alt="" src="<%= user_follow1.user_img.url(:user_index) %>">
-          </a>
-          <% if current_user == @user %>
-          <%= link_to 'Delete',user_follow1_path(@user.id,user.id), method: :delete, data: {confirm: "are you sure"}  %>
-          <% end %>     
-          <% end %>
-          <h3>Danh sách user theo dõi bạn</h3>
-          <% user_follow1 = Follow1.where(:follow_user_id => @user.id).order("created_at DESC") %>
-          <% user_follow1.all.each do |user| %>
-          <% user_follow2 = User.find(user.user_id) %>
-          <a href="<%= user_path(user_follow2)%>">
-          <img alt="" src="<%= user_follow2.user_img.url(:user_index) %>">
-          </a>
-          <% end %>
+        	<h3 class="text-uppercase">Danh sách user đang theo dõi</h3>
+        	<% @user_follow = @user.follow1s.all %>
+			<table class="table table-hover table-light">
+				<thead>
+				<tr>
+					<th scope="col">STT</th>
+					<th scope="col">Username</th>
+					<th scope="col">Avatar</th>
+					<th scope="col">Email</th>
+					<th scope="col">Created at</th>
+					<th scope="col">Delete</th>
+				</tr>
+				</thead>
+				<tbody>
+				<% count = 1 %>
+				<% @user_follow.all.each do |user| %>
+					<% user_follow1 = User.find(user.follow_user_id) %>
+					<tr>
+						<th scope="row"><%=count%></th>
+						<td>
+							<a href="<%= user_path(user_follow1)%>">
+								<%=user_follow1.name%>
+							</a>
+						</td>
+						<td >
+							<a href="<%= user_path(user_follow1)%>">
+								<img style="width:150px; max-height: 150px;flex-wrap: wrap;" alt="" src="<%= user_follow1.user_img.url(:user_index) %>">
+							</a>
+						</td>
+						<td>
+							<a href="<%= user_path(user_follow1)%>">
+								<%=user_follow1.email%>
+							</a>
+						</td>
+						<td>
+							<a href="<%= user_path(user_follow1)%>">
+								<%=user_follow1.created_at%>
+							</a>
+						</td>
+						<td>
+							<% if current_user == @user %>
+								<%= link_to 'Delete',user_follow1_path(@user.id,user.id), method: :delete, data: {confirm: "are you sure"}  %>
+							<% end %>   
+						</td>
+					</tr>
+					<% count = count + 1 %>
+				<% end %>
+				</tbody>
+			</table>
+
+
+
+			<h3 class="text-uppercase">Danh sách user theo dõi bạn</h3>
+			<% user_follow1 = Follow1.where(:follow_user_id => @user.id).order("created_at DESC") %>
+			<table class="table table-hover table-light">
+				<thead>
+				<tr>
+					<th scope="col">STT</th>
+					<th scope="col">Username</th>
+					<th scope="col">Avatar</th>
+					<th scope="col">Email</th>
+					<th scope="col">Created at</th>
+					<th scope="col">Delete</th>
+				</tr>
+				</thead>
+				<tbody>
+				<% count = 1 %>
+				<% user_follow1.all.each do |user| %>
+					<% user_follow2 = User.find(user.user_id) %>
+					<tr>
+						<th scope="row"><%=count%></th>
+						<td>
+							<a href="<%= user_path(user_follow2)%>">
+								<%=user_follow2.name%>
+							</a>
+						</td>
+						<td >
+							<a href="<%= user_path(user_follow2)%>">
+								<img style="width:150px; max-height: 150px;flex-wrap: wrap;" alt="" src="<%= user_follow2.user_img.url(:user_index) %>">
+							</a>
+						</td>
+						<td>
+							<a href="<%= user_path(user_follow2)%>">
+								<%=user_follow2.email%>
+							</a>
+						</td>
+						<td>
+							<a href="<%= user_path(user_follow2)%>">
+								<%=user_follow2.created_at%>
+							</a>
+						</td>
+						<td>
+							<% if current_user == @user %>
+								<%= link_to 'Delete',user_follow1_path(@user.id,user.id), method: :delete, data: {confirm: "are you sure"}  %>
+							<% end %>   
+						</td>
+					</tr>
+					<% count = count + 1 %>
+				<% end %>
+				</tbody>
+			</table>
 
         </div>
       </div>
