@@ -9,14 +9,7 @@ gem 'client_side_validations-simple_form'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
 gem 'rails', '~> 5.1.5'
-group :production do
-	gem 'pg'
-	gem 'rails_12factor'
-  end
- 
- group :development do
-	gem 'sqlite3'
-  end
+gem 'sqlite3'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -34,6 +27,10 @@ gem "mysql2", "~> 0.4.4"
 gem 'paperclip', '~> 4.3', '>= 4.3.6'
 gem "closure_tree"
 gem 'acts_as_tree', '~> 2.4'
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

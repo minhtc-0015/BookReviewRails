@@ -1,34 +1,32 @@
 
-	<div>
-		<a href="#">
+<li class="comment" >
+	<div class="wn__comment">
+		<div class="thumb">
 			<img class="profile-images1" src="<%= review.user.user_img.url(:user_index)%>" alt="...">
-			<h4><%= review.user.name %></h4>
-		</a>
-		
-		<div class="review__ratings__type d-flex">
-			<div class="review-ratings">
-				<div class="rating-summary d-flex">
+		</div>
+		<div class="content" style="border: 3px solid #ececec;">
+			<div class="comnt__author d-block d-sm-flex" >
+				<span><a href="#"><%= review.user.name %></a> post</span>
+				<span>
 					<span>Rating</span>
 					<input type="hidden" class="rating" data-filled="glyphicon glyphicon-star" value=<%= review.rating %> data-empty="glyphicon glyphicon-star-empty"/>
-				</div>
-				<div class="rating-summary d-flex">
-					<% if logged_in? %>
-					<% if review.user_id == current_user.id %>
-							<div class="links btn-group">
-								<%= link_to "Edit", edit_book_review_path(review.book, review), class: "btn btn-custom" %>
-								<%= link_to "Delete", book_review_path(review.book, review), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-custom" %>
-							</div>
-						<% end %>	
-					<% end %>
-				</div>
-			</div>
-			<div class="review-content">
-				<p><%= review.comment %></p>
-				<p>
 					<% if review.created_at > Time.now.beginning_of_day %>
 						Vào <%="#{time_ago_in_words(review.created_at)} ago"%> 
-				  	<% end %>
-				</p>
+					  <% end %>
+				</span>
 			</div>
+			<p><%= review.comment %></p>
+			<div>
+				<% if logged_in? %>
+					<% if review.user_id == current_user.id %>
+						<div class="links btn-group">
+							<%= link_to "Edit", edit_book_review_path(review.book, review), class: "btn btn-custom" %>
+							<%= link_to "Delete", book_review_path(review.book, review), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-custom" %>
+						</div>
+					<% end %>	
+				<% end %>
+			</div>
+
 		</div>
 	</div>
+</li>

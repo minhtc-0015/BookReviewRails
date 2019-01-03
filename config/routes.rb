@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/button', to: 'favorites#button', as: 'button'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :users, :controllers => { :omniauth_callbacks => "user/omniauth_callbacks" }
   ActiveAdmin.routes(self)
 
 
