@@ -1,37 +1,37 @@
-    <% if comment.parent_id == 0 %>
-		<li class="comment" id="<%=comment.id %>">
-			<div class="wn__comment">
-				<div class="thumb">
+<% if comment.parent_id == 0 %>
+	<li class="comment" id="<%=comment.id %>">
+		<div class="wn__comment">
+			<div class="thumb">
 				<%= comment.parent_id %>
 				<img src="<%= comment.user.user_img.url(:user_index) %>" alt="">
-				</div>
-				<div class="content">
-					<div class="comnt__author d-block d-sm-flex">
-						<span><a href="<%= user_path(comment.user)%>"><%= comment.user.name %></a> Post author</span>
-						<span>
-							<% if comment.created_at > Time.now.beginning_of_day %>
-								Vào <%="#{time_ago_in_words(comment.created_at)} ago"%>
-							<% else %>
-								Vào <%= l(comment.created_at,format: '%B, %d %Y %H:%M:%S')  %>
-							<% end %>
-						</span>
-						<% if  logged_in? %>
+			</div>
+			<div class="content">
+				<div class="comnt__author d-block d-sm-flex">
+					<span><a href="<%= user_path(comment.user)%>"><%= comment.user.name %></a> Post author</span>
+					<span>
+						<% if comment.created_at > Time.now.beginning_of_day %>
+							Vào <%="#{time_ago_in_words(comment.created_at)} ago"%>
+						<% else %>
+							Vào <%= l(comment.created_at,format: '%B, %d %Y %H:%M:%S')  %>
+						<% end %>
+					</span>
+					<% if  logged_in? %>
 						<% if @current_user.id == comment.user_id %>
 							<div class="reply__btn">
 							<%= link_to "Delete", book_comment_path(comment.book, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "" %>
 							</div>
 						<% end %>
-						<% end %>
-            <% if logged_in? %>
-							<div class="reply__btn">
-								<%= link_to 'Reply', book_path(comment.book,parent_id: comment.id, :anchor =>  "wall") %>
-							</div>
-            <% end %>
-					</div>
-					<p><%= comment.comment %></p>
+					<% end %>
+           			<% if logged_in? %>
+						<div class="reply__btn">
+							<%= link_to 'Reply', book_path(comment.book,parent_id: comment.id, :anchor =>  "wall") %>
+						</div>
+           			<% end %>
 				</div>
+				<p><%= comment.comment %></p>
 			</div>
-			<% end %>
+		</div>
+	<% end %>
 			<% @reply = Comment.where(:parent_id => comment.id).order("created_at DESC") %>
 			<% @reply.all.each do |reply| %>
       <li class="comment_reply" id="<%=reply.id %>">
